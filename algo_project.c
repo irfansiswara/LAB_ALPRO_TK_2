@@ -223,14 +223,11 @@ void deleteBook() {
 void saveBookAndHistory() {
     FILE *fpBook = fopen("databuku.txt", "w");
 
-    if (fpBook == NULL)
-    {
+    if (fpBook == NULL){
         printf("[Error] Gagal membuka databuku.txt!\n");
     }
-    else
-    {
-        for (int i = 0; i < totalBook; i++)
-        {
+    else{
+        for (int i = 0; i < totalBook; i++){
             fprintf(fpBook, "%s|%s|%s|%.2lf\n",
                     books[i].kode,
                     books[i].nama,
@@ -243,14 +240,12 @@ void saveBookAndHistory() {
 
     FILE *fpHistory = fopen("datahistoris.txt", "w");
 
-    if (fpHistory == NULL)
-    {
+    if (fpHistory == NULL){
         printf("[Error] Gagal membuka datatransaksi.txt!\n");
     }
     else
     {
-        for (int i = 0; i < totalHistory; i++)
-        {
+        for (int i = 0; i < totalHistory; i++){
             fprintf(fpHistory, "%s|%d|%.2lf\n",
                     histories[i].kodeBuku,
                     histories[i].jumlahTerjual,
@@ -260,8 +255,7 @@ void saveBookAndHistory() {
         printf("[Sukses] Data transaksi berhasil tersimpan.\n");
     }
 
-    if (fpBook == NULL || fpHistory == NULL)
-    {
+    if (fpBook == NULL || fpHistory == NULL){
         printf("\nTekan ENTER untuk melanjutkan proses keluar sistem tanpa menyimpan data yang gagal...");
         getchar();
     }
