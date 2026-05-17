@@ -112,10 +112,10 @@ void viewHistory() {
     printf("\n--- Daftar Riwayat Penjualan ---\n");
     for (int i = 0; i < totalHistory; i++){
         printf("%d. %s | %d | %.2lf\n",
-               i + 1,
-               histories[i].kodeBuku,
-               histories[i].jumlahTerjual,
-               histories[i].totalHarga);
+        i + 1,
+        histories[i].kodeBuku,
+        histories[i].jumlahTerjual,
+        histories[i].totalHarga);
     }
 }
 
@@ -264,6 +264,83 @@ void saveBookAndHistory() {
 void inputTransaction() {
 }
 
+void sortByName() {
+    if (totalBook == 0) {
+        printf("\nTidak ada data buku untuk diurutkan.\n");
+        return;
+    }
+
+    for (int i = 0; i < totalBook - 1; i++) {
+        for (int j = 0; j < totalBook - i - 1; j++) {
+            if (strcmp(books[j].nama, books[j + 1].nama) > 0) {
+                Book temp = books[j];
+                books[j] = books[j + 1];
+                books[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\nData buku berhasil diurutkan berdasarkan nama (A-Z):\n");
+    viewBook();
+}
+
+void sortByPrice() {
+    if (totalBook == 0) {
+        printf("\nTidak ada data buku untuk diurutkan.\n");
+        return;
+    }
+
+    for (int i = 0; i < totalBook - 1; i++) {
+        int maxIdx = i;
+        for (int j = i + 1; j < totalBook; j++) {
+            if (books[j].harga > books[maxIdx].harga) {
+                maxIdx = j;
+            }
+        }
+        if (maxIdx != i) {
+            Book temp = books[i];
+            books[i] = books[maxIdx];
+            books[maxIdx] = temp;
+        }
+    }
+
+    printf("\nData buku berhasil diurutkan berdasarkan harga (Tertinggi ke Terendah):\n");
+    viewBook();
+}
+
+void sortBookMenu() {
+    int choice;
+    do {
+        printf("\n--- Menu Sort Buku ---\n");
+        printf("1. Urutkan berdasarkan nama buku (A-Z)\n");
+        printf("2. Urutkan berdasarkan harga buku (Tertinggi ke Terendah)\n");
+        printf("3. Kembali ke menu utama\n");
+        printf("Pilih opsi [1-3]: ");
+        int validation = scanf("%d", &choice);
+        while (getchar() != '\n');
+
+        if (validation != 1 || choice < 1 || choice > 3) {
+            printf("Input tidak valid!\n");
+            choice = 0;
+        } else {
+            switch (choice) {
+                case 1:
+                    sortByName();
+                    break;
+                case 2:
+                    sortByPrice();
+                    break;
+                case 3:
+                    return;
+            }
+        }
+
+        printf("\nTekan Enter untuk kembali ke menu Sort Buku...");
+        getchar();
+
+    } while (choice != 3);
+}
+
 int main(void)
 {
     int select_menu;
@@ -324,7 +401,9 @@ int main(void)
             case 7:
                 inputTransaction();
                 break;
-            case 8: break;
+            case 8:
+                sortBookMenu();
+            break;
         }
 
         printf("\nTekan Enter untuk kembali ke menu awal");
