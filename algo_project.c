@@ -261,7 +261,81 @@ void saveBookAndHistory() {
     }
 }
 
+//function untuk melakukan input transaksi
 void inputTransaction() {
+
+    if (totalBook == 0) {
+        printf("\nTidak ada data buku!\n");
+        return;
+    }
+
+    char inputKode[10];
+    int jumlah;
+    int validation;
+    int foundIndex = -1;
+
+    printf("\n--- Input Transaksi Penjualan ---\n");
+
+    // menampilkann daftar buku untuk dipilih
+    printf("\nDaftar Buku:\n");
+    for (int i = 0; i < totalBook; i++) {
+        printf("%d. %s | %s | %.2lf\n",
+            i + 1,
+            books[i].kode,
+            books[i].nama,
+            books[i].harga);
+    }
+
+    // input kode buku
+    do {
+        printf("\nMasukkan kode buku: ");
+        scanf("%9s", inputKode);
+        while (getchar() != '\n');
+
+        foundIndex = -1;
+
+        // cari kode buku
+        for (int i = 0; i < totalBook; i++) {
+            if (strcmp(books[i].kode, inputKode) == 0) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            printf("Kode buku tidak ditemukan!\n");
+        }
+
+    } while (foundIndex == -1);
+
+    // input jumlah terjual
+    do {
+        printf("Jumlah terjual: ");
+        validation = scanf("%d", &jumlah);
+        while (getchar() != '\n');
+
+        if (validation != 1) {
+            printf("Input harus angka!\n");
+        }
+        else if (jumlah <= 0) {
+            printf("Jumlah harus lebih dari 0!\n");
+            validation = 0;
+        }
+
+    } while (validation != 1);
+
+    // simpan ke histori
+    strcpy(histories[totalHistory].kodeBuku,
+           books[foundIndex].kode);
+
+    histories[totalHistory].jumlahTerjual = jumlah;
+
+    histories[totalHistory].totalHarga =
+        jumlah * books[foundIndex].harga;
+
+    totalHistory++;
+
+    printf("\nTransaksi berhasil disimpan.\n");
 }
 
 void sortByName() {
