@@ -12,6 +12,7 @@ Group-4:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct {
     char kode[10];
@@ -291,6 +292,10 @@ void inputTransaction() {
         printf("\nMasukkan kode buku: ");
         scanf("%9s", inputKode);
         while (getchar() != '\n');
+
+        for (int i = 0; inputKode[i] != '\0'; i++) {
+            inputKode[i] = toupper(inputKode[i]);
+        }
 
         foundIndex = -1;
 
