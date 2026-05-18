@@ -54,6 +54,25 @@ void loadBook() {
     fclose(fp);
 }
 
+/* Load history transaksi */
+void loadHistory() {
+    FILE *fp = fopen("history.txt", "r");
+
+    if (fp == NULL) {
+        return;
+    }
+
+    while (fscanf(fp, "%[^|]|%d|%lf\n",
+        histories[totalHistory].kodeBuku,
+        &histories[totalHistory].jumlahTerjual,
+        &histories[totalHistory].totalHarga) != EOF)
+    {
+        totalHistory++;
+    }
+
+    fclose(fp);
+}
+
 void generateBookCode(char code[]) {
     sprintf(code, "BK%03d", totalBook + 1);
 }
@@ -239,10 +258,10 @@ void saveBookAndHistory() {
         printf("[Sukses] Data buku berhasil tersimpan.\n");
     }
 
-    FILE *fpHistory = fopen("datahistoris.txt", "w");
+    FILE *fpHistory = fopen("history.txt", "w");
 
     if (fpHistory == NULL){
-        printf("[Error] Gagal membuka datatransaksi.txt!\n");
+        printf("[Error] Gagal membuka history.txt!\n");
     }
     else
     {
@@ -427,6 +446,7 @@ int main(void)
 
     //get book and history data
     loadBook();
+    loadHistory();
 
     while (1)
     {

@@ -1,1 +1,1 @@
-BK001|Algoritma Pemrograman|Programming|25000
+BK001|Algoritma Pemrograman|Programming|25000.00
